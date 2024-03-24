@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	_ "image/png"
 	"log"
 
@@ -16,17 +17,25 @@ type Game struct {
 	Init       bool
 }
 
+func UpdateTitle(g *Game) {
+	ebiten.SetWindowTitle(fmt.Sprint("Sky Hopper: Ascension Infinie      TPS: ", int(ebiten.ActualTPS())))
+}
+
 func (g *Game) Update() error {
 	if !g.Init {
 		g.Init = true
 	}
-
+	UpdateTitle(g)
 	return nil
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
-	screen.DrawImage(g.Background, nil)
+	DrawBackground(g, screen)
 	ebitenutil.DebugPrint(screen, "Hello, World!")
+}
+
+func DrawBackground(g *Game, screen *ebiten.Image) {
+	screen.DrawImage(g.Background, nil)
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
@@ -37,7 +46,7 @@ func NewGame() *Game {
 	g := &Game{}
 	g.Init = false
 
-	img, _, err := ebitenutil.NewImageFromFile("background.png")
+	img, _, err := ebitenutil.NewImageFromFile("Assets/background.png")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -49,7 +58,6 @@ func NewGame() *Game {
 func main() {
 	ebiten.SetWindowResizingMode(ebiten.WindowResizingModeDisabled)
 	ebiten.SetWindowSize(WIDTH, HEIGHT)
-	ebiten.SetWindowTitle("Sky Hopper: Ascension Infinie")
 
 	g := NewGame()
 	if err := ebiten.RunGame(g); err != nil {

@@ -8,8 +8,8 @@
             "name": "main_go",
             "type": "go",
             "request": "launch",
-            "mode": "auto",
-            "program": "main.go"
+            "mode": "debug",
+            "program": "."
         },
     ]
 }
